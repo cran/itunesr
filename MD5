@@ -1,9 +1,9 @@
-b3593a96eef51da069b75469f6ea297b *DESCRIPTION
-cabb9fe76005c51e6b8eb4b838fc0c9d *NAMESPACE
-7af444f63dd5c19dc2c52248999e2592 *R/iTunesR.R
-83b709f5e1811ff744fd95f555d44e9d *README.md
-04b2f1c79d71a622c30a9149c69ee446 *man/getAttributes.Rd
-bfa2bf53422c19f184329585ce4ab4b1 *man/getLogo.Rd
-13493de0e0a2c758ebc6cce191dfb34b *man/getReviews.Rd
+57bcf4de4e074ceb865c54d6f2a4e83c *DESCRIPTION
+b762bb0d1d40ed4d1fb10e77ca6b2016 *NAMESPACE
+746ef0c64ac56406141bb334cee14c69 *R/iTunesR.R
+0ab8a65d3d5c75851b2f9ce78ff9e048 *README.md
+f36bfb5253785c3b1a3e571d4ca63ff6 *man/getAttributes.Rd
+91072f83828501dd25ea60d711630ff2 *man/getLogo.Rd
+f7ee10c17a7b0ebc049985b2aa016984 *man/getReviews.Rd
 5161fcff39e9a314efc0aecb876b969b *tests/testthat.R
 c759b489535568868480308ae4dfdcbf *tests/testthat/test-fun.R

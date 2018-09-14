@@ -1,5 +1,7 @@
 # itunesr
-[![Build Status](https://travis-ci.org/amrrs/itunesr.svg?branch=master)](https://travis-ci.org/amrrs/itunesr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/itunesr)](https://cran.r-project.org/package=itunesr) [![DOWNLOADSTOTAL](https://cranlogs.r-pkg.org/badges/grand-total/itunesr)](https://cranlogs.r-pkg.org/badges/grand-total/itunesr) [![Coverage Status](https://img.shields.io/codecov/c/github/amrrs/itunesr/master.svg)](https://codecov.io/github/amrrs/itunesr?branch=master)
+[![Build Status](https://travis-ci.org/amrrs/itunesr.svg?branch=master)](https://travis-ci.org/amrrs/itunesr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/itunesr)](https://cran.r-project.org/package=itunesr) [![DOWNLOADSTOTAL](https://cranlogs.r-pkg.org/badges/grand-total/itunesr)](https://cranlogs.r-pkg.org/badges/grand-total/itunesr) [![Coverage Status](https://img.shields.io/codecov/c/github/amrrs/itunesr/master.svg)](https://codecov.io/github/amrrs/itunesr?branch=master) 
+[![Rdoc](http://www.rdocumentation.org/badges/version/itunesr)](http://www.rdocumentation.org/packages/itunesr)
+
 
 Overview
 --------
@@ -58,21 +60,33 @@ table(uber_reviews$Rating)
 
 ### Output
 ``` r
-> library(itunesr)
-> 
+> library('itunesr')
 > #Latest (Page 1) Uber Reviews for Country: US
 > uber_reviews <- getReviews(368677368,'us',1)
-> 
-> #Displaying the column names 
+> #Displaying the column names
 > names(uber_reviews)
-[1] "Title"       "Author_URL"  "Author_Name" "App_Version" "Rating"     
-[6] "Review"      "Date"       
-> 
+[1] "Title"       "Author_URL"  "Author_Name" "App_Version" "Rating"      "Review"      "Date"       
 > #Ratings count from the 50 Reviews
 > table(uber_reviews$Rating)
 
  1  2  3  4  5 
-40  2  1  1  6 
+19  3  7  4 17 
 ```
 
+### Using itunesr output with Tidyverse
+
+``` r
+> amazon_reviews <- getReviews("297606951","us",1)
+> library(tidyverse)
+> amazon_reviews %>% count(Rating)
+# A tibble: 5 x 2
+  Rating     n
+  <fct>  <int>
+1 1         25
+2 2          8
+3 3          9
+4 4          4
+5 5          4
+
+```
 

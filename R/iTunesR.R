@@ -17,14 +17,33 @@ getReviews <- function(app_id,country,page_num){
         #building_url
 
 
-        json_url <- paste0('http://itunes.apple.com/',country,'/rss/customerreviews/page=',page_num,'/id=',app_id,'/sortby=mostrecent/','json')
+        json_url <- paste0('https://itunes.apple.com/',
+                           country,
+                           '/rss/customerreviews/page=',
+                           page_num,
+                           '/id=',
+                           app_id,
+                           '/sortby=mostrecent/',
+                           'json')
 
-        xml_url <- paste0('http://itunes.apple.com/',country,'/rss/customerreviews/page=',page_num,'/id=',app_id,'/sortby=mostrecent/','xml')
+        xml_url <- paste0('https://itunes.apple.com/',
+                          country,
+                          '/rss/customerreviews/page=',
+                          page_num,
+                          '/id=',
+                          app_id,
+                          '/sortby=mostrecent/',
+                          'xml')
 
 
         js <- jsonlite::fromJSON(json_url)
 
-        reviews <- cbind(Title = js$feed$entry$title$label,Author_URL = js$feed$entry$author$uri,Author_Name = js$feed$entry$author$name,App_Version = js$feed$entry$`im:version`$label,Rating = js$feed$entry$`im:rating`$label,Review = js$feed$entry$content$label)
+        reviews <- cbind(Title = js$feed$entry$title$label,
+                         Author_URL = js$feed$entry$author$uri,
+                         Author_Name = js$feed$entry$author$name,
+                         App_Version = js$feed$entry$`im:version`$label,
+                         Rating = js$feed$entry$`im:rating`$label,
+                         Review = js$feed$entry$content$label)
 
         reviews <- reviews[-1,]
 
@@ -32,26 +51,40 @@ getReviews <- function(app_id,country,page_num){
 
         #reading xml for date
 
-        #xml_url <- 'http://itunes.apple.com/gb/rss/customerreviews/id=370901726/sortBy=mostRecent/xml'
-
-        #xml_n <- xml2::read_xml(xml_url)
 
 
-        #entries <- xml2::xml_children(xml_n)[xml2::xml_name(xml2::xml_children(xml_n))=='entry']
+        xml_n <- xml2::read_xml(xml_url)
 
-        #entries <- entries[-1]
+
+        entries <- xml2::xml_children(xml_n)[xml2::xml_name(xml2::xml_children(xml_n))=='entry']
+
+        entries <- entries[-1]
 
         #extrcting date from entries
 
-        #temporary fix as Apple seems to have removed the XML endpoint
+        date <- xml2::xml_text(
+          xml2::xml_children(entries))[xml2::xml_name(xml2::xml_children(entries))=='updated']
 
-        #date <- xml2::xml_text(xml2::xml_children(entries))[xml2::xml_name(xml2::xml_children(entries))=='updated']
+        # POSIXct conversion to make it work with dplyr
 
-        #reviews$Date <- lubridate::with_tz(strptime(date,format='%Y-%m-%dT%H:%M:%S',tz='America/Los_Angeles'),tzone='Europe/London')
+        reviews$Date <- as.POSIXct(
+                        lubridate::with_tz(
+                        strptime(date,format='%Y-%m-%dT%H:%M:%S',tz='America/Los_Angeles'),
+                                tzone='Europe/London'))
 
         #re-arraning column order
 
         #reviews <- reviews[,c(7,4,5,1,6,3,2)]
+
+        #to fix the rownumber/rownames issue
+
+        # Formatting
+
+        reviews$Title <- as.character(reviews$Title)
+
+        reviews$Review <- as.character(reviews$Review)
+
+        rownames(reviews) <- NULL
 
         return(reviews)
 
@@ -72,7 +105,7 @@ getLogo <- function(app_id,country){
 
   page_num = 1
 
-  json_url <- paste0('http://itunes.apple.com/',country,'/rss/customerreviews/page=',page_num,'/id=',app_id,'/sortby=mostrecent/','json')
+  json_url <- paste0('https://itunes.apple.com/',country,'/rss/customerreviews/page=',page_num,'/id=',app_id,'/sortby=mostrecent/','json')
 
   js <- jsonlite::fromJSON(json_url)
 
@@ -98,7 +131,7 @@ getAttributes <- function(app_id,country){
 
   page_num = 1
 
-  json_url <- paste0('http://itunes.apple.com/gb/rss/customerreviews/page=',page_num,'/id=',app_id,'/sortby=mostrecent/','json')
+  json_url <- paste0('https://itunes.apple.com/gb/rss/customerreviews/page=',page_num,'/id=',app_id,'/sortby=mostrecent/','json')
 
   js <- jsonlite::fromJSON(json_url)
 
